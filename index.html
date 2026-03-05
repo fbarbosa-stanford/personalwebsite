@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Felipe Barbosa — CS @ Stanford, AI Track">
+    <title>Felipe Barbosa</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,500;1,8..60,300;1,8..60,400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Source Serif 4', Georgia, serif;
+            background: #050505;
+            color: #999;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 6rem 2rem 3rem;
+            font-size: 17px;
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        canvas {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+        }
+
+        main {
+            position: relative;
+            z-index: 1;
+            max-width: 540px;
+            width: 100%;
+        }
+
+        h1 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 38px;
+            font-weight: 400;
+            color: #e0e0e0;
+            margin-bottom: 0.2rem;
+            letter-spacing: -0.01em;
+        }
+
+        nav {
+            display: flex;
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: #555;
+            text-decoration: none;
+            font-size: 15px;
+            transition: color 0.15s;
+            cursor: pointer;
+        }
+
+        nav a:hover { color: #bbb; }
+        nav a.active { color: #e0e0e0; }
+
+        .tab { display: none; }
+        .tab.active { display: block; }
+
+        p { margin-bottom: 1rem; }
+
+        a { color: #ccc; text-decoration-color: #333; text-underline-offset: 3px; }
+        a:hover { color: #fff; text-decoration-color: #666; }
+
+        hr {
+            border: none;
+            border-top: 1px solid #151515;
+            margin: 2rem 0;
+        }
+
+        .links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            font-size: 15px;
+        }
+
+        .links li {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .links .label {
+            color: #444;
+            min-width: 70px;
+        }
+
+        /* Experience entries */
+        .entry { margin-bottom: 1.75rem; }
+        .entry:last-child { margin-bottom: 0; }
+
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 0.15rem;
+        }
+
+        .entry-place {
+            color: #ddd;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .entry-date {
+            color: #444;
+            font-size: 14px;
+            font-style: italic;
+        }
+
+        .entry-role {
+            color: #777;
+            font-size: 15px;
+            margin-bottom: 0.4rem;
+        }
+
+        .entry-bullets {
+            list-style: none;
+            padding: 0;
+        }
+
+        .entry-bullets li {
+            font-size: 15px;
+            color: #777;
+            line-height: 1.65;
+            padding-left: 1em;
+            position: relative;
+            margin-bottom: 0.25rem;
+        }
+
+        .entry-bullets li::before {
+            content: '–';
+            position: absolute;
+            left: 0;
+            color: #333;
+        }
+
+        .entry-tech {
+            font-size: 13px;
+            color: #555;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        /* Course list */
+        .course-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .course-list li {
+            font-size: 15px;
+            color: #777;
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .course-list .code {
+            color: #555;
+            min-width: 80px;
+            font-size: 14px;
+        }
+
+        /* Project entries */
+        .project { margin-bottom: 1.5rem; }
+        .project:last-child { margin-bottom: 0; }
+        .project-name { color: #ddd; font-weight: 500; font-size: 16px; }
+        .project-desc { color: #777; font-size: 15px; margin-top: 0.15rem; }
+
+        footer {
+            margin-top: 2rem;
+            font-size: 14px;
+            color: #2a2a2a;
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 4rem 1.25rem 2rem; }
+            h1 { font-size: 30px; }
+            nav { gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<canvas id="c" aria-hidden="true"></canvas>
+
+<main>
+    <h1>Felipe Barbosa</h1>
+
+    <nav>
+        <a class="active" data-tab="about">About</a>
+        <a data-tab="experience">Work Experience</a>
+        <a data-tab="projects">Projects</a>
+        <a data-tab="courses">Courses</a>
+    </nav>
+
+    <div id="about" class="tab active">
+        <p>
+            Hey! I'm a Computer Science undergrad at Stanford University
+            on the Artificial Intelligence Track, planning to graduate in June 2028.
+        </p>
+        <p>
+            I'm most interested in building the systems that let us
+simulate complex natural phenomena, from protein folding to
+the origins of life itself. I also spend a lot of time
+thinking about reinforcement learning, MDPs, and
+vision-language-action models for robotics.
+        </p>
+        <p>
+            Previously I led AI development at
+            <a href="https://oncafari.org" target="_blank" rel="noopener">Onçafari</a>, designed
+            RAG pipelines and financial models at Atmos Capital, and
+            researched molecular inhibitors at Stanford's Frydman Lab.
+            This summer I'm joining <a href="https://mlp.com" target="_blank" rel="noopener">Millennium Management</a>  as a
+            Quantitative Research Intern.
+        </p>
+        <p>
+            Please reach out if any of these ideas sound interesting to
+            you, and check out the other pages to learn more about me!
+        </p>
+    </div>
+
+    <div id="experience" class="tab">
+        <div class="entry">
+            <div class="entry-header">
+                <span class="entry-place">Millennium Management</span>
+                <span class="entry-date">Jun 2026</span>
+            </div>
+            <div class="entry-role">Incoming Quantitative Research Intern</div>
+        </div>
+
+        <div class="entry">
+            <div class="entry-header">
+                <span class="entry-place">Atmos Capital</span>
+                <span class="entry-date">Jun – Sep 2025</span>
+            </div>
+            <div class="entry-role">Summer Analyst</div>
+            <ul class="entry-bullets">
+                <li>Designed production-grade RAG pipeline with Gemini embeddings, AlloyDB/pgvector, and LangGraph — boosted research efficiency 60%</li>
+                <li>Built real-time dashboard aggregating 80M+ nationwide insurance records to model market share and pricing trends</li>
+                <li>Conducted statistical pricing analysis using web scraping (BeautifulSoup, Selenium) and Pandas to identify price discrepancies across e-commerce platforms </li>
+            </ul>
+            <div class="entry-tech">Gemini, LangGraph, AlloyDB, pgvector, Google Cloud</div>
+        </div>
+
+        <div class="entry">
+            <div class="entry-header">
+                <span class="entry-place">Onçafari</span>
+                <span class="entry-date">Jun 2022 – Sep 2024</span>
+            </div>
+            <div class="entry-role">AI Application Team Leader</div>
+            <ul class="entry-bullets">
+                <li>Developed AI wildlife recognition processing 500+ hrs/mo of video, reducing manual review 95% for Latin America's largest conservation NGO</li>
+                <li>Secured Google Cloud sponsorship and led joint sprint with Google engineers</li>
+                <li>Curated largest Brazilian fauna dataset (1M+ annotated frames), eliminating ~6,000 hrs/yr of manual classification</li>
+            </ul>
+            <div class="entry-tech">Python, Google Cloud, CNN, Computer Vision, TensorFlow</div>
+        </div>
+
+        <div class="entry">
+            <div class="entry-header">
+                <span class="entry-place">Frydman Lab · Stanford</span>
+                <span class="entry-date">Jan 2025 – Jan 2026</span>
+            </div>
+            <div class="entry-role">Research Intern</div>
+            <ul class="entry-bullets">
+                <li>Computational modeling and virtual screening to design TRiC chaperonin inhibitors, followed by experimental validation</li>
+            </ul>
+        </div>
+
+        <div class="entry">
+            <div class="entry-header">
+                <span class="entry-place">São Paulo State University</span>
+                <span class="entry-date">Jan 2022 – May 2024</span>
+            </div>
+            <div class="entry-role">Research Intern</div>
+            <ul class="entry-bullets"> 
+                <li>Co-authored published paper on antitumor effects of curcumin on urothelial cancer cells (<a href="https://pubmed.ncbi.nlm.nih.gov/40509054/" target="_blank" rel="noopener">DOI: 10.3390/ani15111589</a>)</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="projects" class="tab">
+        <div class="project">
+            <a class="project-name">Caddy — Autonomous Golf Cart</a>
+            <div class="project-desc">Work in progress</div>
+            <div class="entry-tech">Object Detection, Sunny Pilot, TensorRT, CUDA, MQTT, PID Control</div>
+        </div>
+
+        <div class="project">
+            <a href="polysolver.pdf" target="_blank" rel="noopener" class="project-name">PolySolver</a>
+            <div class="project-desc">Monte Carlo Tree Search agent enhanced with action filtering, heuristic rollouts, and a domain-aware value function for The Battle of Polytopia. Achieves 100% win rate against all public baselines. A Deep Q-Learning agent trained on PolySolver trajectories recovers 60% win rate with no search at inference time.</div>
+            <div class="entry-tech">MCTS, Deep Q-Learning, MDP</div>
+        </div>
+
+        <div class="project">
+            <a href="https://www.loom.com/share/a46f2ef5f8eb4849847f4adf04a0f524" target="_blank" rel="noopener" class="project-name">911 Emergency Call Analysis</a>
+            <div class="project-desc">Real-time system that helps operators classify and prioritize emergency calls using AI. Analyzes call transcripts via multinomial inference and TF-IDF to determine emergency type, priority level, and key information — with Twilio integration for voice and SMS.</div>
+            <div class="entry-tech">Multinomial Inference, TF-IDF, NLP, WebSocket</div>
+        </div>
+    </div>
+
+    <div id="courses" class="tab">
+        <ul class="course-list">
+            <li><span class="code">CS 106B</span> Programming Abstractions</li>
+            <li><span class="code">CS 107</span> Computer Organization and Systems</li>
+            <li><span class="code">CS 109</span> Probability for Computer Scientists</li>
+            <li><span class="code">CS 224R</span> Deep Reinforcement Learning</li>
+            <li><span class="code">CS 231N</span> Deep Learning for Computer Vision</li>
+            <li><span class="code">CS 238</span> Decision Making under Uncertainty</li>
+            <li><span class="code">MATH 51</span> Linear Algebra and Differential Calculus</li>
+            <li><span class="code">MATH 104</span> Applied Matrix Theory</li>
+        </ul>
+    </div>
+
+    <hr>
+
+    <ul class="links">
+        <li><span class="label">Email</span> <a href="mailto:fbarbosa@stanford.edu">fbarbosa@stanford.edu</a></li>
+        <li><span class="label">GitHub</span> <a href="https://github.com/fbarbosa-stanford" target="_blank" rel="noopener">@fbarbosa-stanford</a></li>
+        <li><span class="label">LinkedIn</span> <a href="https://linkedin.com/in/felipelbarbosa" target="_blank" rel="noopener">felipelbarbosa</a></li>
+        <li><span class="label">X</span> <a href="https://x.com/felipexbarbosa" target="_blank" rel="noopener">@felipexbarbosa</a></li>
+    </ul>
+
+    <footer>2026 © Felipe Barbosa</footer>
+</main>
+
+<script>
+// Tab switching
+document.querySelectorAll('nav a').forEach(a => {
+    a.addEventListener('click', () => {
+        document.querySelectorAll('nav a').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        a.classList.add('active');
+        document.getElementById(a.dataset.tab).classList.add('active');
+    });
+});
+
+// ═══════════════════════════════════════════
+// LANGTON'S ANT — multiple ants on dark grid
+// ═══════════════════════════════════════════
+(() => {
+    const canvas = document.getElementById('c');
+    const ctx = canvas.getContext('2d');
+
+    const CELL = 4;
+    const NUM_ANTS = 5;
+    const STEPS_PER_FRAME = 60;
+    // dirs: 0=N 1=E 2=S 3=W
+    const DX = [0, 1, 0, -1];
+    const DY = [-1, 0, 1, 0];
+
+    let W, H, cols, rows, cells, ants, imgData;
+
+    function init() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+        cols = Math.ceil(W / CELL);
+        rows = Math.ceil(H / CELL);
+        cells = new Uint8Array(cols * rows);
+        imgData = null;
+
+        ants = [];
+        for (let i = 0; i < NUM_ANTS; i++) {
+            ants.push({
+                x: Math.floor(cols / 2) + Math.floor(Math.random() * 40 - 20),
+                y: Math.floor(rows / 2) + Math.floor(Math.random() * 40 - 20),
+                d: Math.floor(Math.random() * 4)
+            });
+        }
+    }
+
+    function step() {
+        for (const a of ants) {
+            const idx = a.y * cols + a.x;
+            if (cells[idx] === 0) {
+                a.d = (a.d + 1) & 3;       // white → turn right
+            } else {
+                a.d = (a.d + 3) & 3;       // black → turn left
+            }
+            cells[idx] ^= 1;               // flip
+            a.x += DX[a.d];
+            a.y += DY[a.d];
+            // wrap
+            if (a.x < 0) a.x = cols - 1;
+            else if (a.x >= cols) a.x = 0;
+            if (a.y < 0) a.y = rows - 1;
+            else if (a.y >= rows) a.y = 0;
+        }
+    }
+
+    function render() {
+        if (!imgData || imgData.width !== W || imgData.height !== H)
+            imgData = ctx.createImageData(W, H);
+
+        const d = imgData.data;
+        d.fill(0);
+
+        for (let cy = 0; cy < rows; cy++) {
+            for (let cx = 0; cx < cols; cx++) {
+                if (cells[cy * cols + cx] === 0) continue;
+                const px = cx * CELL, py = cy * CELL;
+                const v = 30;
+                for (let dy = 0; dy < CELL - 1; dy++) {
+                    const ry = py + dy;
+                    if (ry >= H) break;
+                    for (let dx = 0; dx < CELL - 1; dx++) {
+                        const rx = px + dx;
+                        if (rx >= W) break;
+                        const i = (ry * W + rx) * 4;
+                        d[i] = d[i + 1] = d[i + 2] = v;
+                        d[i + 3] = 200;
+                    }
+                }
+            }
+        }
+
+        // Draw ant heads
+        for (const a of ants) {
+            const px = a.x * CELL, py = a.y * CELL;
+            for (let dy = 0; dy < CELL; dy++) {
+                const ry = py + dy;
+                if (ry >= H) break;
+                for (let dx = 0; dx < CELL; dx++) {
+                    const rx = px + dx;
+                    if (rx >= W) break;
+                    const i = (ry * W + rx) * 4;
+                    d[i] = d[i + 1] = d[i + 2] = 160;
+                    d[i + 3] = 255;
+                }
+            }
+        }
+
+        ctx.putImageData(imgData, 0, 0);
+    }
+
+    function frame() {
+        for (let i = 0; i < STEPS_PER_FRAME; i++) step();
+        render();
+        requestAnimationFrame(frame);
+    }
+
+    init();
+    window.addEventListener('resize', init);
+    requestAnimationFrame(frame);
+})();
+</script>
+
+</body>
+</html>
