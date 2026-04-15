@@ -326,7 +326,7 @@ vision-language-action models for robotics.
             <li><span class="code">CS 106B</span> Programming Abstractions</li>
             <li><span class="code">CS 107</span> Computer Organization and Systems</li>
             <li><span class="code">CS 109</span> Probability for Computer Scientists</li>
-            <li><span class="code">CS 131</span> CS131 Computer Vision: Foundations and Applications</li>
+            <li><span class="code">CS 131</span> Computer Vision: Foundations and Applications</li>
             <li><span class="code">CS 224R</span> Deep Reinforcement Learning</li>
             <li><span class="code">CS 238</span> Decision Making under Uncertainty</li>
             <li><span class="code">ENGR 76</span> Information Science and Engineering</li>
@@ -344,10 +344,12 @@ vision-language-action models for robotics.
         <li><span class="label">X</span> <a href="https://x.com/felipexbarbosa" target="_blank" rel="noopener">@felipexbarbosa</a></li>
     </ul>
 
-    <footer>2026 © Felipe Barbosa</footer>
+    <footer><span id="footer-year"></span> © Felipe Barbosa</footer>
 </main>
 
 <script>
+document.getElementById('footer-year').textContent = new Date().getFullYear();
+
 // Tab switching
 document.querySelectorAll('nav a').forEach(a => {
     a.addEventListener('click', () => {
