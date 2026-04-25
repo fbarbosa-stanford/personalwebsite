@@ -425,7 +425,7 @@ document.querySelectorAll('nav a').forEach(a => {
             for (let cx = 0; cx < cols; cx++) {
                 if (cells[cy * cols + cx] === 0) continue;
                 const px = cx * CELL, py = cy * CELL;
-                const v = 22;
+                const v = 26;
                 for (let dy = 0; dy < CELL - 1; dy++) {
                     const ry = py + dy;
                     if (ry >= H) break;
@@ -434,7 +434,7 @@ document.querySelectorAll('nav a').forEach(a => {
                         if (rx >= W) break;
                         const i = (ry * W + rx) * 4;
                         d[i] = d[i + 1] = d[i + 2] = v;
-                        d[i + 3] = 170;
+                        d[i + 3] = 185;
                     }
                 }
             }
@@ -450,8 +450,8 @@ document.querySelectorAll('nav a').forEach(a => {
                     const rx = px + dx;
                     if (rx >= W) break;
                     const i = (ry * W + rx) * 4;
-                    d[i] = d[i + 1] = d[i + 2] = 120;
-                    d[i + 3] = 220;
+                    d[i] = d[i + 1] = d[i + 2] = 140;
+                    d[i + 3] = 235;
                 }
             }
         }
