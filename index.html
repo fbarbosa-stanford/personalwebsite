@@ -365,10 +365,12 @@ document.querySelectorAll('nav a').forEach(a => {
 (() => {
     const canvas = document.getElementById('c');
     const ctx = canvas.getContext('2d');
+    const IS_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+        || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
-    const CELL = 4;
-    const NUM_ANTS = 5;
-    const STEPS_PER_FRAME = 60;
+    const CELL = IS_IOS ? 6 : 4;
+    const NUM_ANTS = IS_IOS ? 2 : 5;
+    const STEPS_PER_FRAME = IS_IOS ? 12 : 60;
     // dirs: 0=N 1=E 2=S 3=W
     const DX = [0, 1, 0, -1];
     const DY = [-1, 0, 1, 0];
@@ -464,7 +466,12 @@ document.querySelectorAll('nav a').forEach(a => {
     }
 
     init();
-    window.addEventListener('resize', init);
+    window.addEventListener('resize', () => {
+        const nextW = window.innerWidth;
+        const nextH = window.innerHeight;
+        const smallIOSViewportShift = IS_IOS && nextW === W && Math.abs(nextH - H) < 120;
+        if (!smallIOSViewportShift) init();
+    });
     requestAnimationFrame(frame);
 })();
 </script>
