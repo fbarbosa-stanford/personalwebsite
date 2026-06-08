@@ -187,6 +187,7 @@
         .project:last-child { margin-bottom: 0; }
         .project-name { color: #ddd; font-weight: 500; font-size: 16px; }
         .project-desc { color: #777; font-size: 15px; margin-top: 0.15rem; }
+        .project-links { font-size: 15px; margin-top: 0.35rem; }
 
         footer {
             margin-top: 2rem;
@@ -227,11 +228,17 @@
             classical machine learning, and predicting complex systems.
         </p>
         <p>
+            Recently I built <a href="pidrive.pdf" target="_blank" rel="noopener">π-Drive</a>, a single-camera
+            vision-language-action driving policy that adapts π₀.₅ from robot manipulation into real-time autonomous
+            driving via behavior cloning and Flow-GRPO, beating the best driving VLA, Alpamayo-R1, on open-loop
+            trajectory accuracy while running ~20× faster on edge hardware.
+        </p>
+        <p>
             Previously I led AI development at
             <a href="https://oncafari.org" target="_blank" rel="noopener">Onçafari</a>, designed
             RAG pipelines and financial models at Atmos Capital, and
             researched molecular inhibitors at Stanford's Frydman Lab.
-            This summer I'm joining <a href="https://mlp.com" target="_blank" rel="noopener">Millennium Management</a>  as a
+            This summer I'm joining <a href="https://mlp.com" target="_blank" rel="noopener">Millennium Management</a> as a
             Quantitative Research Intern.
         </p>
         <p>
@@ -302,8 +309,15 @@
 
     <div id="projects" class="tab">
         <div class="project">
+            <a href="pidrive.pdf" target="_blank" rel="noopener" class="project-name">π-Drive, Real-Time Driving VLA</a>
+            <div class="project-desc">CS 224R final project adapting π₀.₅, a compact flow-matching VLA trained for robot manipulation, into a single-camera autonomous driving policy. Behavior cloning on NVIDIA PhysicalAI-AV teaches 6.4s acceleration-curvature trajectories; Flow-GRPO post-training improves mean ADE by ~13% and beats the best driving VLA, Alpamayo-R1 (3.58 m vs 4.23 m ADE), while running at control rate on a Jetson AGX Thor, ~3× smaller and ~20× faster. We're exploring applying it to our Stanford golf cart, Caddy.</div>
+            <div class="project-links"><a href="https://github.com/fbarbosa-stanford/pi-drive-final" target="_blank" rel="noopener">Code</a> · <a href="pidrive.pdf" target="_blank" rel="noopener">Paper</a> · <a href="pidrive-poster.pdf" target="_blank" rel="noopener">Poster</a></div>
+            <div class="entry-tech">π₀.₅, Flow-GRPO, Behavior Cloning, PhysicalAI-AV, VLA, Modal</div>
+        </div>
+
+        <div class="project">
             <a class="project-name">Caddy — Autonomous Golf Cart</a>
-            <div class="project-desc">Built and deployed a self-driving golf cart at Stanford, integrating perception, trajectory planning, and control for autonomous navigation in real campus settings. Demonstrated the system to  <a href="https://www.instagram.com/p/DY7Vs7HmxhH/" target="_blank" rel="noopener" class="project-name">Sam Altman</a>, <a href="https://x.com/MansteinGeorg/status/2049962414779851118?s=20" target="_blank" rel="noopener" class="project-name">Jensen Huang</a>, and <a href="https://x.com/MansteinGeorg/status/2049254921070129522?s=20" target="_blank" rel="noopener" class="project-name">Andrej Karpathy</a>.</div>
+            <div class="project-desc">Built and deployed a self-driving golf cart at Stanford, integrating perception, trajectory planning, and control for autonomous navigation in real campus settings. Demonstrated the system to <a href="https://www.instagram.com/p/DY7Vs7HmxhH/" target="_blank" rel="noopener">Sam Altman</a>, <a href="https://x.com/MansteinGeorg/status/2049962414779851118?s=20" target="_blank" rel="noopener">Jensen Huang</a>, and <a href="https://x.com/MansteinGeorg/status/2049254921070129522?s=20" target="_blank" rel="noopener">Andrej Karpathy</a>.</div>
             <div class="entry-tech">Mask2Former, Depth Anything V3, Motion Planning, Modal GPU Inference</div>
         </div>
 
